@@ -62,11 +62,11 @@ class ShowOpenFoodTrucks
   # Print out responses
   def search_output(index)
     if @food_truck_list[index]["applicant"] && @food_truck_list[index]["location"]
-      puts "NAME: " + @food_truck_list[index]["applicant"] + "\n\tADDRESS: " + @food_truck_list[index]["location"]
+      puts (index + 1).to_s + ") " + @food_truck_list[index]["applicant"] + " -- " + @food_truck_list[index]["location"]
     elsif @food_truck_list[index]["applicant"] && !@food_truck_list[index]["location"]
-      puts "NAME: " + @food_truck_list[index]["applicant"] + "\n\tADDRESS: "+ "location unknown"
+      puts (index + 1).to_s + ") " + @food_truck_list[index]["applicant"] + " -- " + "location unknown"
     elsif !@food_truck_list[index]["applicant"] && @food_truck_list[index]["location"]
-      puts (index + 1).to_s + ") " + @food_truck_list[index]["optionaltext"] + "\n\tADDRESS: "+ @food_truck_list[index]["location"]
+      puts (index + 1).to_s + ") " + @food_truck_list[index]["optionaltext"] + " -- " + @food_truck_list[index]["location"]
     else
       raise "Data error"
     end
