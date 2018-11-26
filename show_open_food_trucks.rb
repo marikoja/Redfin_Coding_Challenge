@@ -24,8 +24,12 @@ class ShowOpenFoodTrucks
       raise "HTTP request failed"
     end
 
-    # Sort responses alphabetically
-    @foodTruckList.sort_by! { |truck| truck["applicant"]}
+    alpha_sort("applicant")
+  end
+
+  # Sort responses alphabetically
+  def alpha_sort(sort_field)
+    @foodTruckList.sort_by! { |truck| truck[sort_field]}
   end
 
   def print_trucks
