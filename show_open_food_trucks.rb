@@ -13,11 +13,11 @@ class ShowOpenFoodTrucks
     params = { :dayofweekstr => day }
     uri.query = URI.encode_www_form(params)
     res = Net::HTTP.get_response(uri)
-    @foodTruckList = []
+    @food_truck_list = []
     if res.is_a?(Net::HTTPSuccess)
       JSON.parse(res.body).each do |truck|
         if truck["end24"] >= hour
-          @foodTruckList << truck
+          @food_truck_list << truck
         end
       end
     else
@@ -29,31 +29,31 @@ class ShowOpenFoodTrucks
 
   # Sort responses alphabetically
   def alpha_sort(sort_field)
-    @foodTruckList.sort_by! { |truck| truck[sort_field]}
+    @food_truck_list.sort_by! { |truck| truck[sort_field]}
   end
 
   def print_trucks
 
-    if (@foodTruckList.length == 0)
+    if (@food_truck_list.length == 0)
       puts "No food trucks found."
     else
-      totalCnt = 0
-      dispCnt = 0
-      displayMore = true
+      total_count = 0
+      display_count = 0
+      display_more = true
 
       # loop while there are still more food trucks to display and
       # we've displayed less than 10 for this current run and the
       # user still wants to see more food truck results
-      while (totalCnt < @foodTruckList.length && dispCnt < 10 && displayMore == true)
-        self.search_output(totalCnt)
-        totalCnt += 1
-        dispCnt += 1
+      while (total_count < @food_truck_list.length && display_count < 10 && display_more == true)
+        self.search_output(total_count)
+        total_count += 1
+        display_count += 1
 
         # if there are still more food trucks to display and we've just displayed a set of 10,
         # then prompt the user if they want to see more food truck results
-        if (totalCnt < @foodTruckList.length && dispCnt == 10)
-          dispCnt = 0
-          displayMore = self.ask_display_more
+        if (total_count < @food_truck_list.length && display_count == 10)
+          display_count = 0
+          display_more = self.ask_display_more
         end
       end
     end
@@ -61,12 +61,12 @@ class ShowOpenFoodTrucks
 
   # Print out responses
   def search_output(index)
-    if @foodTruckList[index]["applicant"] && @foodTruckList[index]["location"]
-      puts "NAME: " + @foodTruckList[index]["applicant"] + "\n\tADDRESS: " + @foodTruckList[index]["location"]
-    elsif @foodTruckList[index]["applicant"] && !@foodTruckList[index]["location"]
-      puts "NAME: " + @foodTruckList[index]["applicant"] + "\n\tADDRESS: "+ "location unknown"
-    elsif !@foodTruckList[index]["applicant"] && @foodTruckList[index]["location"]
-      puts (index + 1).to_s + ") " + @foodTruckList[index]["optionaltext"] + "\n\tADDRESS: "+ @foodTruckList[index]["location"]
+    if @food_truck_list[index]["applicant"] && @food_truck_list[index]["location"]
+      puts "NAME: " + @food_truck_list[index]["applicant"] + "\n\tADDRESS: " + @food_truck_list[index]["location"]
+    elsif @food_truck_list[index]["applicant"] && !@food_truck_list[index]["location"]
+      puts "NAME: " + @food_truck_list[index]["applicant"] + "\n\tADDRESS: "+ "location unknown"
+    elsif !@food_truck_list[index]["applicant"] && @food_truck_list[index]["location"]
+      puts (index + 1).to_s + ") " + @food_truck_list[index]["optionaltext"] + "\n\tADDRESS: "+ @food_truck_list[index]["location"]
     else
       raise "Data error"
     end
