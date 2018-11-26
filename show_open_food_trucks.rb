@@ -79,7 +79,7 @@ class ShowOpenFoodTrucks
         puts "Please give YES or NO response. \nWould you like to see more results?"
         continue = gets.chomp.upcase
     end
-    if (continue == "YES")
+    if (continue == "YES" || continue == "Y")
       return true
     else
       return false
